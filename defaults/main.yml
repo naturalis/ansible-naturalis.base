@@ -1,0 +1,8 @@
+---
+# defaults file for naturalis.base
+base_packages:
+  - vim
+  - zsh
+  - sysstat
+admin_users: []
+

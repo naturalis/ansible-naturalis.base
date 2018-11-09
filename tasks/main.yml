@@ -1,0 +1,73 @@
+---
+# tasks file for naturalis.base
+#
+- name: install base packages
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items: "{{ base_packages }}"
+
+- name: Allow 'adm' to passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%adm'
+    line: '%adm ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: create user
+  user:
+    name: "{{ item.username }}"
+    group: adm
+    shell: /bin/zsh
+  with_items: "{{ admin_users }}"
+
+- name: set ssh_dir
+  file:
+    state: directory
+    name: /home/{{item.username}}/.ssh
+    owner: "{{item.username}}"
+    group: adm
+    mode: 0700
+  with_items: "{{ admin_users }}"
+
+- name: set public key
+  copy:
+    content: ssh-rsa {{ item.public_key }} {{ item.username }}
+    dest: /home/{{item.username}}/.ssh/authorized_keys
+    owner: "{{ item.username }}"
+    group: adm
+    mode: 0600
+  with_items: "{{ admin_users }}"
+
+- name: set screen
+  get_url:
+    url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/grml/screenrc_generic') }}"
+    dest: /home/{{item.username}}/.screenrc
+    owner: "{{ item.username }}"
+    group: adm
+    mode: 0600
+  with_items: "{{ admin_users }}"
+
+- name: set zshrc
+  get_url:
+    url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc') }}"
+    dest: /home/{{item.username}}/.zshrc
+    owner: "{{ item.username }}"
+    group: adm
+    mode: 0600
+  with_items: "{{ admin_users }}"
+
+- name: set vimrc
+  get_url:
+    url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/vim/vimrc') }}"
+    dest: /home/{{item.username}}/.vimrc
+    owner: "{{ item.username }}"
+    group: adm
+    mode: 0600
+  with_items: "{{ admin_users }}"
+
+
+
+
