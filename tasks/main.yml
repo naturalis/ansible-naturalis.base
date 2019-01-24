@@ -1,7 +1,7 @@
 ---
 # tasks file for naturalis.base
-#
-- name: install base packages
+
+- name: Install base packages
   apt:
     name: "{{ item }}"
     update_cache: yes
@@ -16,14 +16,14 @@
     line: '%adm ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
-- name: create user
+- name: Create user
   user:
     name: "{{ item.username }}"
     group: adm
     shell: /bin/zsh
   with_items: "{{ admin_users }}"
 
-- name: set ssh_dir
+- name: Set ssh_dir
   file:
     state: directory
     name: /home/{{item.username}}/.ssh
@@ -32,7 +32,7 @@
     mode: 0700
   with_items: "{{ admin_users }}"
 
-- name: set public key
+- name: Set public key
   copy:
     content: "{{ item.key_format | default ('ssh-rsa') }} {{ item.public_key }} {{ item.username }}"
     dest: /home/{{item.username}}/.ssh/authorized_keys
@@ -41,7 +41,7 @@
     mode: 0600
   with_items: "{{ admin_users }}"
 
-- name: set screen
+- name: Set screen config
   get_url:
     url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/grml/screenrc_generic') }}"
     dest: /home/{{item.username}}/.screenrc
@@ -50,7 +50,7 @@
     mode: 0600
   with_items: "{{ admin_users }}"
 
-- name: set zshrc
+- name: Set zshrc
   get_url:
     url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc') }}"
     dest: /home/{{item.username}}/.zshrc
@@ -59,7 +59,7 @@
     mode: 0600
   with_items: "{{ admin_users }}"
 
-- name: set vimrc
+- name: Set vimrc
   get_url:
     url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/vim/vimrc') }}"
     dest: /home/{{item.username}}/.vimrc
@@ -67,7 +67,3 @@
     group: adm
     mode: 0600
   with_items: "{{ admin_users }}"
-
-
-
-
