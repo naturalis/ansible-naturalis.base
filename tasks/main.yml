@@ -25,8 +25,8 @@
 - name: Set ssh_dir
   file:
     state: directory
-    name: /home/{{item.username}}/.ssh
-    owner: "{{item.username}}"
+    name: /home/{{ item.username }}/.ssh
+    owner: "{{ item.username }}"
     group: adm
     mode: 0700
   with_items: "{{ admin_users }}"
@@ -34,7 +34,7 @@
 - name: Set public key
   copy:
     content: "{{ item.key_format | default ('ssh-rsa') }} {{ item.public_key }} {{ item.username }}"
-    dest: /home/{{item.username}}/.ssh/authorized_keys
+    dest: /home/{{ item.username }}/.ssh/authorized_keys
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
@@ -43,7 +43,7 @@
 - name: Set screen config
   get_url:
     url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/grml/screenrc_generic') }}"
-    dest: /home/{{item.username}}/.screenrc
+    dest: /home/{{ item.username }}/.screenrc
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
@@ -52,7 +52,7 @@
 - name: Set zshrc
   get_url:
     url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc') }}"
-    dest: /home/{{item.username}}/.zshrc
+    dest: /home/{{ item.username }}/.zshrc
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
@@ -61,7 +61,7 @@
 - name: Set vimrc
   get_url:
     url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/vim/vimrc') }}"
-    dest: /home/{{item.username}}/.vimrc
+    dest: /home/{{ item.username }}/.vimrc
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
