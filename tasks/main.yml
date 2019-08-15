@@ -20,7 +20,9 @@
     name: "{{ item.username }}"
     group: adm
     shell: /bin/zsh
-  with_items: "{{ admin_users }}"
+  loop: "{{ admin_users }}"
+  loop_control:
+    label: "{{ item.username }}"
 
 - name: Set ssh_dir
   file:
@@ -29,7 +31,9 @@
     owner: "{{ item.username }}"
     group: adm
     mode: 0700
-  with_items: "{{ admin_users }}"
+  loop: "{{ admin_users }}"
+  loop_control:
+    label: "{{ item.username }}"
 
 - name: Set public key
   copy:
@@ -38,7 +42,9 @@
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
-  with_items: "{{ admin_users }}"
+  loop: "{{ admin_users }}"
+  loop_control:
+    label: "{{ item.username }}"
 
 - name: Set screen config
   get_url:
@@ -47,7 +53,9 @@
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
-  with_items: "{{ admin_users }}"
+  loop: "{{ admin_users }}"
+  loop_control:
+    label: "{{ item.username }}"
 
 - name: Set zshrc
   get_url:
@@ -56,7 +64,9 @@
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
-  with_items: "{{ admin_users }}"
+  loop: "{{ admin_users }}"
+  loop_control:
+    label: "{{ item.username }}"
 
 - name: Set vimrc
   get_url:
@@ -65,4 +75,6 @@
     owner: "{{ item.username }}"
     group: adm
     mode: 0600
-  with_items: "{{ admin_users }}"
+  loop: "{{ admin_users }}"
+  loop_control:
+    label: "{{ item.username }}"
