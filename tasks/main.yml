@@ -23,6 +23,7 @@
   loop: "{{ admin_users }}"
   loop_control:
     label: "{{ item.username }}"
+  tags: admin_users
 
 - name: Set ssh_dir
   file:
@@ -34,6 +35,8 @@
   loop: "{{ admin_users }}"
   loop_control:
     label: "{{ item.username }}"
+  tags: admin_users
+
 
 - name: Set public key
   copy:
@@ -45,6 +48,8 @@
   loop: "{{ admin_users }}"
   loop_control:
     label: "{{ item.username }}"
+  tags: admin_users
+
 
 - name: Set screen config
   get_url:
@@ -56,6 +61,8 @@
   loop: "{{ admin_users }}"
   loop_control:
     label: "{{ item.username }}"
+  tags: admin_users
+
 
 - name: Set zshrc
   get_url:
@@ -67,6 +74,8 @@
   loop: "{{ admin_users }}"
   loop_control:
     label: "{{ item.username }}"
+  tags: admin_users
+
 
 - name: Set vimrc
   get_url:
@@ -78,3 +87,5 @@
   loop: "{{ admin_users }}"
   loop_control:
     label: "{{ item.username }}"
+  tags: admin_users
+
