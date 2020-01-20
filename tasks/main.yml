@@ -51,41 +51,6 @@
   tags: admin_users
 
 
-- name: Set screen config
-  get_url:
-    url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/grml/screenrc_generic') }}"
-    dest: /home/{{ item.username }}/.screenrc
-    owner: "{{ item.username }}"
-    group: adm
-    mode: 0600
-  loop: "{{ admin_users }}"
-  loop_control:
-    label: "{{ item.username }}"
-  tags: admin_users
 
 
-- name: Set zshrc
-  get_url:
-    url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc') }}"
-    dest: /home/{{ item.username }}/.zshrc
-    owner: "{{ item.username }}"
-    group: adm
-    mode: 0600
-  loop: "{{ admin_users }}"
-  loop_control:
-    label: "{{ item.username }}"
-  tags: admin_users
-
-
-- name: Set vimrc
-  get_url:
-    url: "{{ item.screen_config_url | default('http://git.grml.org/f/grml-etc-core/etc/vim/vimrc') }}"
-    dest: /home/{{ item.username }}/.vimrc
-    owner: "{{ item.username }}"
-    group: adm
-    mode: 0600
-  loop: "{{ admin_users }}"
-  loop_control:
-    label: "{{ item.username }}"
-  tags: admin_users
 
